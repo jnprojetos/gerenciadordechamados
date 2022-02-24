@@ -13,22 +13,22 @@ import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/api/funcionarios")
+@RequestMapping(value = "/api/v1")
 public class FuncionarioController {
 
     private FuncionarioService funcionarioService;
 
-    @GetMapping
+    @GetMapping(value = "/funcionarios")
     public ResponseEntity<Object> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findAll());
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/funcionarios/{id}")
     public ResponseEntity<Object> findById(@PathVariable(value = "id") Long id){
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findById(id));
     }
 
-    @PostMapping
+    @PostMapping(value = "/funcionarios")
     public ResponseEntity<Object> add(@Valid @RequestBody FuncionarioDTO funcionarioDTO){
         var funcionario = new Funcionario();
         BeanUtils.copyProperties(funcionarioDTO, funcionario);
