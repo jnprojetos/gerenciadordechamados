@@ -5,7 +5,6 @@ import br.com.gestordechamados.model.Cliente;
 import br.com.gestordechamados.service.ClienteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 
-@Tag(name = "Clientes", description = "Clientes")
 @RestController
 @RequestMapping(value = "/api/v1")
 @AllArgsConstructor

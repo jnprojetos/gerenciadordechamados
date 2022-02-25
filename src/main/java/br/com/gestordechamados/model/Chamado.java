@@ -27,13 +27,10 @@ public class Chamado {
     @ManyToOne
     private Funcionario funcionario;
 
-    @NotNull
     private LocalDate dataAbertura;
 
-    @NotNull
     private SituacaoChamado situacao;
 
-    @NotNull
     private LocalDate dataFinalizacao;
 
 }
