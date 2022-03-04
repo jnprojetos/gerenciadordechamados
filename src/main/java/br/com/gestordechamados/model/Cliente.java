@@ -1,5 +1,7 @@
 package br.com.gestordechamados.model;
 
+import com.fasterxml.jackson.annotation.JacksonAnnotation;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -16,7 +18,7 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_cliente;
+    private Long id;
 
     @NotNull
     @Size(min = 5, max = 100)

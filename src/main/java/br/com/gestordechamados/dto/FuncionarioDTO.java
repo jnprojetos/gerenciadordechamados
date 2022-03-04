@@ -1,18 +1,19 @@
 package br.com.gestordechamados.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 public class FuncionarioDTO {
 
     private long id;
 
-    private long matricula;
-
     @NotBlank
-    private String nome_func;
+    private String nome;
 
     @NotBlank
     private String email;

@@ -1,6 +1,7 @@
 package br.com.gestordechamados.model;
 
 import br.com.gestordechamados.enums.SituacaoChamado;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +18,8 @@ public class Chamado {
     private Long numeroChamado;
 
     @Size(max = 255)
+    private String descricao;
+
     private String observacao;
 
     @NotNull

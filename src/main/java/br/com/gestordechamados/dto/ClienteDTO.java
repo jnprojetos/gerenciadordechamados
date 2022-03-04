@@ -1,13 +1,16 @@
 package br.com.gestordechamados.dto;
 
-import br.com.gestordechamados.model.Cliente;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class ClienteDTO {
+
     private long id;
 
     @NotBlank
@@ -19,9 +22,9 @@ public class ClienteDTO {
     @NotBlank
     private String telefone;
 
+    @NotNull
     private LocalDate dataNascimento;
 
     @NotBlank
     private String email;
-
 }

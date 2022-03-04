@@ -1,15 +1,16 @@
 package br.com.gestordechamados.controller;
 
-import br.com.gestordechamados.dto.FuncionarioDTO;
+import br.com.gestordechamados.converter.ConverterClasses;
 import br.com.gestordechamados.model.Funcionario;
+import br.com.gestordechamados.dto.FuncionarioDTO;
 import br.com.gestordechamados.service.FuncionarioService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -17,21 +18,22 @@ import javax.validation.Valid;
 public class FuncionarioController {
 
     private FuncionarioService funcionarioService;
+    private ConverterClasses converter;
 
     @GetMapping(value = "/funcionarios")
-    public ResponseEntity<Object> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findAll());
+    public ResponseEntity<List<FuncionarioDTO>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(converter.toCollectionModelFuncionarioDTO(funcionarioService.findAll()));
     }
 
     @GetMapping(value = "/funcionarios/{id}")
-    public ResponseEntity<Object> findById(@PathVariable(value = "id") Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findById(id));
+    public ResponseEntity<FuncionarioDTO> findById(@PathVariable(value = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(converter.toModelFuncionarioDTO(funcionarioService.findById(id)));
     }
 
     @PostMapping(value = "/funcionarios")
-    public ResponseEntity<Object> add(@Valid @RequestBody FuncionarioDTO funcionarioDTO){
+    public ResponseEntity<FuncionarioDTO> add(@Valid @RequestBody FuncionarioDTO funcionarioDTO){
         var funcionario = new Funcionario();
-        BeanUtils.copyProperties(funcionarioDTO, funcionario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.add(funcionario));
+        funcionario = converter.toModelFuncionarioDTO(funcionarioDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(converter.toModelFuncionarioDTO(funcionarioService.add(funcionario)));
     }
 }

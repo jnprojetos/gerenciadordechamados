@@ -1,11 +1,12 @@
 package br.com.gestordechamados.controller;
 
-import br.com.gestordechamados.dto.ChamadoDTO;
+import br.com.gestordechamados.converter.ConverterClasses;
 import br.com.gestordechamados.model.Chamado;
+import br.com.gestordechamados.model.input.ChamadoInput;
+import br.com.gestordechamados.dto.ChamadoDTO;
 import br.com.gestordechamados.service.ChamadoService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,25 +20,25 @@ import java.util.List;
 public class ChamadoController {
 
     private ChamadoService chamadoService;
+    private ConverterClasses converter;
 
     @ApiOperation(value = "Recurso para registrar um chamado.")
     @PostMapping(value = "/chamados")
-    public ResponseEntity<Object> add(@Valid @RequestBody ChamadoDTO chamadoDTO){
+    public ResponseEntity<ChamadoDTO> add(@Valid @RequestBody ChamadoInput chamadoInput){
         var chamado = new Chamado();
-        BeanUtils.copyProperties(chamadoDTO, chamado);
-        return ResponseEntity.status(HttpStatus.CREATED).body(chamadoService.add(chamado));
+        chamado = converter.toModelChamado(chamadoInput);
+        return ResponseEntity.status(HttpStatus.CREATED).body(converter.toModelChamadoDTO(chamadoService.add(chamado)));
     }
 
     @ApiOperation(value = "Recurso atualiza a situação de um chamado.")
-    @PutMapping(value = "/chamados/{numero_chamado}/atualizar")
-    public ResponseEntity<Object> updateSituation(@PathVariable(value = ("numero_chamado")) Long numeroChamado){
-        var chamado = chamadoService.findById(numeroChamado);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(chamadoService.updateSituation(chamado));
+    @PutMapping(value = "/chamados/finalizar")
+    public ResponseEntity<ChamadoDTO> finalize(@RequestBody ChamadoDTO chamadoDTO){
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(converter.toModelChamadoDTO(chamadoService.finalize(chamadoDTO)));
     }
 
     @ApiOperation(value = "Recurso para listar todos dos chamados.")
     @GetMapping(value = "/chamados")
-    public ResponseEntity<List<Chamado>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(chamadoService.findAll());
+    public ResponseEntity<List<ChamadoDTO>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(converter.toCollectionModelChamadoDTO(chamadoService.findAll()));
     }
 }

@@ -14,4 +14,10 @@ public class ExceptionHandler {
         StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), System.currentTimeMillis(), e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(ObjectBadRequestException.class)
+    public ResponseEntity<StandardError> objectBadRequest(ObjectBadRequestException e, HttpServletRequest request){
+        StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), System.currentTimeMillis(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }

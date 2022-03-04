@@ -1,18 +1,30 @@
 package br.com.gestordechamados.dto;
 
+import br.com.gestordechamados.enums.SituacaoChamado;
 import br.com.gestordechamados.model.Cliente;
 import br.com.gestordechamados.model.Funcionario;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class ChamadoDTO {
 
-    @NotBlank
-    private String observacao;
+    private Long numeroChamado;
 
     private Cliente cliente;
 
     private Funcionario funcionario;
+
+    private String descricao;
+
+    private String observacao;
+
+    private LocalDate dataAbertura;
+
+    private SituacaoChamado situacao;
+
+    private LocalDate dataFinalizacao;
 }

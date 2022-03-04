@@ -16,14 +16,11 @@ public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_func;
-
-    @NotNull
-    private Long matricula;
+    private Long id;
 
     @NotNull
     @Size(min = 5, max = 100)
-    private String nome_func;
+    private String nome;
 
     @NotNull
     @Email
