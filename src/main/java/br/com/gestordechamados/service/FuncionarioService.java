@@ -35,4 +35,8 @@ public class FuncionarioService {
         }
         return funcionarioRepository.save(funcionario);
     }
+
+    public void delete(Funcionario funcionario){
+        funcionarioRepository.delete(funcionario);
+    }
 }

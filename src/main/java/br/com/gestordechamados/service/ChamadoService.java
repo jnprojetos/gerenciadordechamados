@@ -64,4 +64,12 @@ public class ChamadoService {
         return chamdoRepository.findAll();
     }
 
+    public Chamado findByCliente(Cliente cliente){
+        return chamdoRepository.findByCliente(cliente).get();
+    }
+
+    public Chamado findByFuncionario(Funcionario funcionario){
+        return chamdoRepository.findByFuncionario(funcionario).get();
+    }
+
 }

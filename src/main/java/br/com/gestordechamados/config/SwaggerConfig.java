@@ -2,12 +2,12 @@ package br.com.gestordechamados.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Tag;
-import springfox.documentation.service.VendorExtension;
+import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -15,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Configuration
 @EnableSwagger2
@@ -32,12 +33,14 @@ public class SwaggerConfig {
                                 "application/json"
                         )
                 ))
+                .useDefaultResponseMessages(false)
+                .globalResponseMessage(RequestMethod.GET, responseMessagesForGET())
                 .apiInfo(metaInfo());
     }
 
     private ApiInfo metaInfo(){
         ApiInfo apiInfo = new ApiInfo(
-                "API Rest - Gerenciador de Chamados",
+                "Swagger API Gerenciador de Chamados",
                 "API Para Geneciamento de Chamados",
                 "1.0",
                 "Apache license Version 2.0",
@@ -48,4 +51,25 @@ public class SwaggerConfig {
         );
         return apiInfo;
     }
+
+    private List<ResponseMessage> responseMessagesForGET(){
+        return new ArrayList<ResponseMessage>() {{
+            add(new ResponseMessageBuilder()
+                .code(400)
+                .message("Bad Request")
+                .responseModel(new ModelRef("Error"))
+                .build());
+            add(new ResponseMessageBuilder()
+                .code(404)
+                .message("Not Found")
+                .responseModel(new ModelRef("Error"))
+                .build());
+            add(new ResponseMessageBuilder()
+                .code(500)
+                .message("Service Unavailable")
+                .responseModel(new ModelRef("Error"))
+                .build());
+        }};
+    }
+
 }

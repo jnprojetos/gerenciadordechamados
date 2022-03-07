@@ -29,11 +29,19 @@ public class ClienteService {
 
     @Transactional
     public Cliente add(Cliente cliente){
-        boolean emailEmUso = clienteRepository.findByEmail(cliente.getEmail()).stream()
+        boolean clienteJaCadastrado = clienteRepository.findByEmailOrCpf(cliente.getEmail(), cliente.getCpf()).stream()
                 .anyMatch(clienteExistente -> !clienteExistente.equals(cliente));
-        if(emailEmUso){
-            throw new ObjectBadRequestException("Já existe um cliente cadastrado com esse e-mail.");
+        if(clienteJaCadastrado){
+            throw new ObjectBadRequestException("Já existe um cliente cadastrado com essas informações");
         }
         return clienteRepository.save(cliente);
+    }
+
+    public Cliente update(Cliente cliente){
+       return clienteRepository.save(cliente);
+    }
+
+    public void delete(Cliente cliente){
+        clienteRepository.delete(cliente);
     }
 }
