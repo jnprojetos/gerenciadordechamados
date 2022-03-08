@@ -5,6 +5,9 @@ import br.com.gestordechamados.exceptions.ObjectNotFoundException;
 import br.com.gestordechamados.model.Cliente;
 import br.com.gestordechamados.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,7 @@ import java.util.List;
 public class ClienteService {
 
     private ClienteRepository clienteRepository;
+
 
     public List<Cliente> findAll(){
         return clienteRepository.findAll();

@@ -43,4 +43,6 @@ public class ChamadoController {
     public ResponseEntity<List<ChamadoDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(converter.toCollectionModelChamadoDTO(chamadoService.findAll()));
     }
+
+
 }

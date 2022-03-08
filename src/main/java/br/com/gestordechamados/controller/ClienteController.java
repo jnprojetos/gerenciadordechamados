@@ -11,11 +11,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -27,18 +30,6 @@ public class ClienteController {
     private ClienteService clienteService;
     private ConverterClasses converter;
     private ChamadoService chamadoService;
-
-    @ApiOperation(value = "Listar todos os clientes cadastrados.")
-    @GetMapping
-    public ResponseEntity<List<ClienteDTO>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(converter.toCollectionModelClienteDTO(clienteService.findAll()));
-    }
-
-    @ApiOperation(value = "Buscar um cliente pelo id.")
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<ClienteDTO> findById(@PathVariable(value = "id") Long id){
-        return ResponseEntity.ok(converter.toModelClienteDTO(clienteService.findById(id)));
-    }
 
     @ApiOperation(value = "Cadastrar um novo cliente.")
     @PostMapping
@@ -59,6 +50,18 @@ public class ClienteController {
         cliente.setTelefone(clienteDTO.getTelefone());
 
         return ResponseEntity.status(HttpStatus.OK).body(converter.toModelClienteDTO(clienteService.update(cliente)));
+    }
+
+    @ApiOperation(value = "Listar todos os clientes")
+    @GetMapping
+    public ResponseEntity<List<ClienteDTO>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(converter.toCollectionModelClienteDTO(clienteService.findAll()));
+    }
+
+    @ApiOperation(value = "Buscar um cliente pelo id.")
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ClienteDTO> findById(@PathVariable(value = "id") Long id){
+        return ResponseEntity.ok(converter.toModelClienteDTO(clienteService.findById(id)));
     }
 
     @ApiOperation(value = "Exclui um cliente")

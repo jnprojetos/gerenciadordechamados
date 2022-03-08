@@ -36,6 +36,11 @@ public class FuncionarioService {
         return funcionarioRepository.save(funcionario);
     }
 
+    @Transactional
+    public Funcionario update(Funcionario funcionario){
+        return funcionarioRepository.save(funcionario);
+    }
+
     public void delete(Funcionario funcionario){
         funcionarioRepository.delete(funcionario);
     }
