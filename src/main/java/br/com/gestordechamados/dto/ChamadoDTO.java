@@ -3,6 +3,8 @@ package br.com.gestordechamados.dto;
 import br.com.gestordechamados.enums.SituacaoChamado;
 import br.com.gestordechamados.model.Cliente;
 import br.com.gestordechamados.model.Funcionario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +16,7 @@ public class ChamadoDTO {
 
     private Long numeroChamado;
 
-    private Cliente cliente;
+    private JsonNode cliente;
 
     private Funcionario funcionario;
 

@@ -4,6 +4,7 @@ import br.com.gestordechamados.dto.ChamadoDTO;
 import br.com.gestordechamados.enums.SituacaoChamado;
 import br.com.gestordechamados.exceptions.ObjectBadRequestException;
 import br.com.gestordechamados.exceptions.ObjectNotFoundException;
+import br.com.gestordechamados.mensageria.constants.RabbitConstants;
 import br.com.gestordechamados.model.Chamado;
 import br.com.gestordechamados.model.Cliente;
 import br.com.gestordechamados.model.Funcionario;
@@ -23,6 +24,7 @@ public class ChamadoService {
     private ChamdoRepository chamdoRepository;
     private ClienteService clienteService;
     private FuncionarioService funcionarioService;
+
 
     @Transactional
     public Chamado add(Chamado chamado){

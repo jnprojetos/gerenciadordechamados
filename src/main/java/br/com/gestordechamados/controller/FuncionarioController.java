@@ -2,10 +2,12 @@ package br.com.gestordechamados.controller;
 
 import br.com.gestordechamados.converter.ConverterClasses;
 import br.com.gestordechamados.exceptions.ObjectBadRequestException;
+import br.com.gestordechamados.mensageria.constants.RabbitConstants;
 import br.com.gestordechamados.model.Funcionario;
 import br.com.gestordechamados.dto.FuncionarioDTO;
 import br.com.gestordechamados.service.ChamadoService;
 import br.com.gestordechamados.service.FuncionarioService;
+import br.com.gestordechamados.service.RabbitmqService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -25,13 +27,18 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
     private ConverterClasses converter;
     private ChamadoService chamadoService;
+    private RabbitmqService rabbitmqService;
 
     @ApiOperation(value = "Cadastrar um novo funcionário")
     @PostMapping
     public ResponseEntity<FuncionarioDTO> add(@Valid @RequestBody FuncionarioDTO funcionarioDTO){
         var funcionario = new Funcionario();
         funcionario = converter.toModelFuncionarioDTO(funcionarioDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(converter.toModelFuncionarioDTO(funcionarioService.add(funcionario)));
+
+        var funcionarCommit = funcionarioService.add(funcionario);
+        rabbitmqService.enviaMensagem(RabbitConstants.FILA_FUNCIONARIO, funcionarCommit);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(converter.toModelFuncionarioDTO(funcionarCommit));
     }
 
     @ApiOperation(value = "Alterar um funcionário")
