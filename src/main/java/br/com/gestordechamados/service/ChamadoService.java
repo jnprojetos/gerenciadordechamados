@@ -4,11 +4,10 @@ import br.com.gestordechamados.dto.ChamadoDTO;
 import br.com.gestordechamados.enums.SituacaoChamado;
 import br.com.gestordechamados.exceptions.ObjectBadRequestException;
 import br.com.gestordechamados.exceptions.ObjectNotFoundException;
-import br.com.gestordechamados.mensageria.constants.RabbitConstants;
 import br.com.gestordechamados.model.Chamado;
 import br.com.gestordechamados.model.Cliente;
 import br.com.gestordechamados.model.Funcionario;
-import br.com.gestordechamados.repository.ChamdoRepository;
+import br.com.gestordechamados.repository.ChamadoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ChamadoService {
 
-    private ChamdoRepository chamdoRepository;
+    private ChamadoRepository chamadoRepository;
     private ClienteService clienteService;
     private FuncionarioService funcionarioService;
 
@@ -36,13 +35,13 @@ public class ChamadoService {
         chamado.setSituacao(SituacaoChamado.Pendente);
         chamado.setDataAbertura(LocalDate.now());
 
-        return chamdoRepository.save(chamado);
+        return chamadoRepository.save(chamado);
     }
 
     @Transactional
     public Chamado finalize(ChamadoDTO chamadoDTO){
         Chamado chamado = new Chamado();
-        chamado = chamdoRepository.findById(chamadoDTO.getNumeroChamado()).get();
+        chamado = chamadoRepository.findById(chamadoDTO.getNumeroChamado()).get();
         if (chamado.getSituacao().equals(SituacaoChamado.Pendente)){
             if (chamadoDTO.getSituacao().equals(SituacaoChamado.Concluido)){
                 chamado.setSituacao(SituacaoChamado.Concluido);
@@ -55,23 +54,23 @@ public class ChamadoService {
         else{
             throw new ObjectBadRequestException("Chamado ja finalizado");
         }
-        return chamdoRepository.save(chamado);
+        return chamadoRepository.save(chamado);
     }
 
-    public Chamado findById(Long numeroChamado){
-        return chamdoRepository.findById(numeroChamado).orElseThrow(()-> new ObjectNotFoundException("Chamado não encontrado!"));
+    public Chamado findByNumeroChamado(Long numeroChamado){
+        return chamadoRepository.findByNumeroChamado(numeroChamado).orElseThrow(()-> new ObjectNotFoundException("Chamado não encontrado!"));
     }
 
     public List<Chamado> findAll(){
-        return chamdoRepository.findAll();
+        return chamadoRepository.findAll();
     }
 
-    public Chamado findByCliente(Cliente cliente){
-        return chamdoRepository.findByCliente(cliente).get();
+    public List<Chamado> findByCliente(Cliente cliente){
+        return chamadoRepository.findByCliente(cliente);
     }
 
     public Chamado findByFuncionario(Funcionario funcionario){
-        return chamdoRepository.findByFuncionario(funcionario).get();
+        return chamadoRepository.findByFuncionario(funcionario).get();
     }
 
 }

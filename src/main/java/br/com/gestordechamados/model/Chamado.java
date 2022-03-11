@@ -1,7 +1,8 @@
 package br.com.gestordechamados.model;
 
+import br.com.gestordechamados.CustomLocalDateSerializer;
 import br.com.gestordechamados.enums.SituacaoChamado;
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -30,10 +31,12 @@ public class Chamado {
     @ManyToOne
     private Funcionario funcionario;
 
+    @JsonSerialize(using = CustomLocalDateSerializer.class)
     private LocalDate dataAbertura;
 
     private SituacaoChamado situacao;
 
+    @JsonSerialize(using = CustomLocalDateSerializer.class)
     private LocalDate dataFinalizacao;
 
 }

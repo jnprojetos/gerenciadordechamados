@@ -1,10 +1,7 @@
 package br.com.gestordechamados.model;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotation;
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import br.com.gestordechamados.CustomLocalDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -36,12 +33,12 @@ public class Cliente {
     private String telefone;
 
     @NotNull
-//    @JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = CustomLocalDateSerializer.class)
     private LocalDate dataNascimento;
 
     @NotNull
     @Email
     private String email;
+
 
 }

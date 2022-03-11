@@ -68,8 +68,8 @@ public class ClienteController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id") Long id){
         var cliente = clienteService.findById(id);
-        var chamado = chamadoService.findByCliente(cliente);
-        if (chamado != null){
+        var chamados = chamadoService.findByCliente(cliente);
+        if (chamados.size() > 0){
             throw new ObjectBadRequestException("Cliente não pode ser excluido.");
         }
         clienteService.delete(cliente);
